@@ -36,139 +36,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- DYNAMICALLY CREATE SERVICE CARDS ---
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('services script running (DOMContentLoaded)');
-    
-      // اگر می‌خوای نام پوشه رو عوض کنی فقط این BASE را تغییر بده
-      const BASE_IMG_PATH = '/siterecoopmedia/'; // قرار بده در public/siterecoopmedia/ در Netlify
-    
-      // داده‌ها — فقط نام فایل آیکون، نه مسیر کامل (برای جلوگیری از اشتباهات مسیر)
-      const servicesData = [
-        { title: "Reabilitação Estrutural", iconFile: 'recoop_stone_wall_imitation.png', items: ["Reforço de vigas, lajes e fundações", "Recuperação de paredes antigas", "Tratamento de humidades e fissuras", "Reabilitação sísmica e estrutural"] },
-        { title: "Telhados e Coberturas", iconFile: 'recoop_portuguese_roof_tile.jpeg', items: ["Substituição e isolamento de telhados", "Impermeabilização e drenagem", "Aplicação de telhas diversas", "Coberturas verdes e ecológicas"] },
-        { title: "Fachadas e Revestimentos", iconFile: 'recoop_etics_application.jpeg', items: ["Capoto / ETICS", "Imitação de pedra e madeira", "Revestimentos em pedra natural", "Pinturas exteriores e proteção"] },
-        { title: "Divisórias, Tetos e Isolamentos", iconFile: 'recoop_workers_3.png', items: ["Pladur / Gesso cartonado", "Isolamento térmico e acústico", "Tetos acústicos e decorativos", "Isolamentos interiores e de caves"] },
-        { title: "Carpintarias e Acabamentos", iconFile: 'recoop_wood_imitation_railing.png', items: ["Portas, janelas e caixilharias", "Pavimentos vinílicos e flutuantes", "Revestimentos em madeira", "Mobiliário ecológico e reciclado"] },
-        { title: "Canalização e Eletricidade", iconFile: 'recoop_home_repairs.png', items: ["Substituição de canalizações", "Instalação de águas e esgotos", "Instalação elétrica, LED e domótica", "Painéis solares e carregadores"] },
-        { title: "Pinturas e Decoração", iconFile: 'recoop_painter.png', items: ["Pinturas com tintas ecológicas", "Estuques decorativos e cimento", "Lacagens e vernizes naturais", "Design e decoração ambiental"] },
-        { title: "Sustentabilidade e Energia", iconFile: 'recoop_solar_panels.png', items: ["Painéis solares fotovoltaicos", "Sistemas off-grid e baterias", "Captação de águas pluviais", "Casas com baixo consumo"] }
-      ];
-    
-      const servicesGrid = document.getElementById('services-grid');
-      const servicesPin = document.getElementById('services-pin');
-    
-      if (!servicesGrid) {
-        console.error('services-grid not found in DOM — make sure HTML includes <div id=\"services-grid\">');
-        return;
-      }
-      if (!servicesPin) {
-        console.warn('services-pin not found; pin functionality disabled');
-      }
-    
-      // create pin image element once
-      let pinImg = null;
-      if (servicesPin) {
-        pinImg = document.createElement('img');
-        pinImg.className = 'pin-img';
-        // optional placeholder (data URL tiny transparent) — replace with real placeholder if you want
-        pinImg.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-        servicesPin.appendChild(pinImg);
-      }
-    
-      // utility: build full image URL
-      function imgUrl(fileName) {
-        if (!fileName) return '';
-        // normalize: trim, lowercase
-        return BASE_IMG_PATH + fileName.trim();
-      }
-    
-      // placeholder in case of image error (change path if you add a real placeholder)
-      const FALLBACK_IMG = imgUrl('placeholder.png') || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-    
-      // create cards
-      servicesData.forEach((svc, idx) => {
-        const card = document.createElement('div');
-        card.className = 'service-card';
-        card.setAttribute('data-service-idx', idx);
-    
-        // header
-        const header = document.createElement('div');
-        header.className = 'service-card-header';
-    
-        // icon img element
-        const iconWrapper = document.createElement('div');
-        iconWrapper.className = 'service-icon-wrapper';
-        const img = document.createElement('img');
-        img.className = 'service-icon';
-        img.alt = svc.title;
-        img.src = imgUrl(svc.iconFile);
-    
-        // image error handling
-        img.addEventListener('error', () => {
-          console.warn('Image failed to load:', img.src);
-          img.src = FALLBACK_IMG;
-        });
-    
-        iconWrapper.appendChild(img);
-        header.appendChild(iconWrapper);
-    
-        // title
-        const h4 = document.createElement('h4');
-        h4.textContent = svc.title;
-        header.appendChild(h4);
-    
-        card.appendChild(header);
-    
-        // items list
-        const ul = document.createElement('ul');
-        svc.items.forEach(itemText => {
-          const li = document.createElement('li');
-          li.textContent = itemText;
-          ul.appendChild(li);
-        });
-        card.appendChild(ul);
-    
-        // event handlers: hover -> show in pin; click -> toggle selected
-        let selected = false;
-        card.addEventListener('mouseenter', () => {
-          if (!pinImg) return;
-          pinImg.src = imgUrl(svc.iconFile);
-          servicesPin.classList.add('pin-filled');
-          console.log('pin show (hover):', svc.iconFile);
-        });
-        card.addEventListener('mouseleave', () => {
-          if (!pinImg) return;
-          if (!selected) {
-            // clear pin (set to transparent tiny gif)
-            pinImg.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-            servicesPin.classList.remove('pin-filled');
-            console.log('pin cleared (mouseleave)');
+    const servicesData = [
+        { title: "Reabilitação Estrutural", icon: '<img src="siterecoopmedia/recoop_stone_wall_imitation.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Reforço de vigas, lajes e fundações", "Recuperação de paredes antigas", "Tratamento de humidades e fissuras", "Reabilitação sísmica e estrutural"] },
+        { title: "Telhados e Coberturas", icon: '<img src="siterecoopmedia/recoop_portuguese_roof_tile.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Substituição e isolamento de telhados", "Impermeabilização e drenagem", "Aplicação de telhas diversas", "Coberturas verdes e ecológicas"] },
+        { title: "Fachadas e Revestimentos", icon: '<img src="siterecoopmedia/recoop_etics_application.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Capoto / ETICS", "Imitação de pedra e madeira", "Revestimentos em pedra natural", "Pinturas exteriores e proteção"] },
+        { title: "Divisórias, Tetos e Isolamentos", icon: '<img src="siterecoopmedia/recoop_workers_3.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Pladur / Gesso cartonado", "Isolamento térmico e acústico", "Tetos acústicos e decorativos", "Isolamentos interiores e de caves"] },
+        { title: "Carpintarias e Acabamentos", icon: '<img src="siterecoopmedia/recoop_wood_imitation_railing.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Portas, janelas e caixilharias", "Pavimentos vinílicos e flutuantes", "Revestimentos em madeira", "Mobiliário ecológico e reciclado"] },
+        { title: "Canalização e Eletricidade", icon: '<img src="siterecoopmedia/recoop_home_repairs.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Substituição de canalizações", "Instalação de águas e esgotos", "Instalação elétrica, LED e domótica", "Painéis solares e carregadores"] },
+        { title: "Pinturas e Decoração", icon: '<img src="siterecoopmedia/recoop_painter.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Pinturas com tintas ecológicas", "Estuques decorativos e cimento", "Lacagens e vernizes naturais", "Design e decoração ambiental"] },
+        {
+            title: "Sustentabilidade e Energia",
+            icon: '<img src="siterecoopmedia/recoop_solar_panels.png" alt="Sustentabilidade e Energia" class="service-icon">',
+            items: [
+              "Painéis solares fotovoltaicos",
+              "Sistemas off-grid e baterias",
+              "Captação de águas pluviais",
+              "Casas com baixo consumo"
+            ]
           }
-        });
-        card.addEventListener('click', () => {
-          selected = !selected;
-          if (selected) {
-            pinImg.src = imgUrl(svc.iconFile);
-            servicesPin.classList.add('pin-filled');
-            card.style.boxShadow = '0 6px 18px rgba(0,0,0,0.12)';
-            console.log('card selected:', svc.title);
-          } else {
-            pinImg.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-            servicesPin.classList.remove('pin-filled');
-            card.style.boxShadow = '';
-            console.log('card deselected:', svc.title);
-          }
-        });
-    
-        servicesGrid.appendChild(card);
-        console.log('Appended service card:', svc.title, 'img:', img.src);
-      });
-    
-      console.log('services-grid children count:', servicesGrid.children.length);
-    });
+          
+    ];
 
-  }
-)
+    const servicesGrid = document.getElementById('services-grid');
+    if (servicesGrid) {
+        servicesData.forEach(service => {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            
+            const listItems = service.items.map(item => `<li>${item}</li>`).join('');
+
+            card.innerHTML = `
+                <div class="service-card-header">
+                    <div class="service-icon-wrapper">${service.icon}</div>
+                    <h4>${service.title}</h4>
+                </div>
+                <ul>${listItems}</ul>
+            `;
+            servicesGrid.appendChild(card);
+        });
+    }
+
+
+    // --- FORM SUBMISSION LOGIC ---
+    const quoteForm = document.getElementById('quote-form');
+    const successMessage = document.getElementById('success-message');
+
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real application, you would send the form data to a server here.
+            // For this example, we'll just show the success message.
+            quoteForm.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+        });
+    }
+
+});
+
+
+
+
 
 
 
