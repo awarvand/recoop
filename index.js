@@ -93,6 +93,7 @@ if (quoteForm) {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const message = document.getElementById('message').value.trim();
+        
         const date = new Date().toISOString(); // تاریخ ارسال
 
         // ساخت داده برای ارسال به وبهوک
