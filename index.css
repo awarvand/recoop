@@ -643,39 +643,46 @@ h1, h2, h3, h4 {
     display: inline-block;
   }
   
-  /* container موقعیت دهی کن */
-  #servicos .container { position: relative; }
+    /* container موقعیت دهی کن */
+    #servicos .container { position: relative; }
+
+    /* services pin (هدف نهایی) */
+    .services-pin {
+      position: absolute;
+      top: -50px;        /* تنظیم کن براساس جای دلخواه داخل container */
+      right: 450px;      /* گوشه بالا-راست؛ می‌تونی تغییر بدی */
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 30;
+      background: transparent;
+      width: 96px;
+      height: 96px;
+    }
   
-  /* services pin (هدف نهایی) */
-  .services-pin {
-    position: absolute;
-    top: -50px;        /* تنظیم کن براساس جای دلخواه داخل container */
-    right: 450px;      /* گوشه بالا-راست؛ می‌تونی تغییر بدی */
-    width: 56px;
-    height: 96px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 30;
-    background: transparent;
-    width: 96px;
-    height: 96px;
-  }
+    /* وقتی pin پر شد کلاس pin-filled اضافه می‌شود */
+    .services-pin.pin-filled { background: transparent; }
   
-  /* وقتی pin پر شد کلاس pin-filled اضافه می‌شود */
-  .services-pin.pin-filled { background: transparent; }
+    /* تصویر داخل pin */
+    .services-pin img.pin-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: inherit;
+      pointer-events: none;
+    }
   
-  /* تصویر الان داخل pin */
-  .services-pin img.pin-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    border-radius: inherit;
-    pointer-events: none;
-  }
+    /* کارت‌ها */
+    .services-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 20px; }
+    .service-card { background:#f8f8f8; padding:12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.06); cursor:pointer; transition:transform .12s; }
+    .service-card:hover { transform: translateY(-4px); }
+    .service-card-header { display:flex; gap:12px; align-items:center; }
+    .service-icon { width:48px; height:48px; object-fit:cover; border-radius:6px; flex-shrink:0; }
+    .service-card h4 { margin:0; font-size:1rem; }
+    .service-card ul { margin:8px 0 0 18px; padding:0; color:#333; font-size:0.92rem; }
   
   /* clone که به body اضافه میشه - follow mode (بدون transition برای همگامی دقیق) */
   .floating-clone {
