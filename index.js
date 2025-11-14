@@ -1,95 +1,152 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- HEADER SCROLL & MOBILE MENU LOGIC ---
-    const header = document.getElementById('main-header');
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const xIcon = document.getElementById('x-icon');
+   // index.js (place next to index.html)
+document.addEventListener('DOMContentLoaded', () => {
+  // --- HEADER SCROLL & MOBILE MENU LOGIC ---
+  const header = document.getElementById('main-header');
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const xIcon = document.getElementById('x-icon');
 
-    // Handle header background on scroll
+  if (window && header) {
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
     });
+  }
 
-    // Toggle mobile menu
+  if (menuButton && mobileMenu && menuIcon && xIcon) {
     menuButton.addEventListener('click', () => {
-        const isMenuOpen = mobileMenu.classList.toggle('open');
-        menuButton.setAttribute('aria-expanded', isMenuOpen);
-        menuIcon.classList.toggle('hidden', isMenuOpen);
-        xIcon.classList.toggle('hidden', !isMenuOpen);
+      const isMenuOpen = mobileMenu.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', isMenuOpen);
+      menuIcon.classList.toggle('hidden', isMenuOpen);
+      xIcon.classList.toggle('hidden', !isMenuOpen);
     });
-    
-    // Close mobile menu when a link is clicked
     mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            menuButton.setAttribute('aria-expanded', 'false');
-            menuIcon.classList.remove('hidden');
-            xIcon.classList.add('hidden');
-        });
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuIcon.classList.remove('hidden');
+        xIcon.classList.add('hidden');
+      });
     });
+  }
 
+  // --- DYNAMICALLY CREATE SERVICE CARDS ---
+  (function initServices() {
+    console.log('services init');
+    const BASE_IMG_PATH = '/siterecoopmedia/'; // folder without spaces; must exist on server
 
-    // --- DYNAMICALLY CREATE SERVICE CARDS ---
     const servicesData = [
-        { title: "Reabilitação Estrutural", icon: '<img src="siterecoopmedia/recoop_stone_wall_imitation.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Reforço de vigas, lajes e fundações", "Recuperação de paredes antigas", "Tratamento de humidades e fissuras", "Reabilitação sísmica e estrutural"] },
-        { title: "Telhados e Coberturas", icon: '<img src="siterecoopmedia/recoop_portuguese_roof_tile.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Substituição e isolamento de telhados", "Impermeabilização e drenagem", "Aplicação de telhas diversas", "Coberturas verdes e ecológicas"] },
-        { title: "Fachadas e Revestimentos", icon: '<img src="siterecoopmedia/recoop_etics_application.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Capoto / ETICS", "Imitação de pedra e madeira", "Revestimentos em pedra natural", "Pinturas exteriores e proteção"] },
-        { title: "Divisórias, Tetos e Isolamentos", icon: '<img src="siterecoopmedia/recoop_workers_3.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Pladur / Gesso cartonado", "Isolamento térmico e acústico", "Tetos acústicos e decorativos", "Isolamentos interiores e de caves"] },
-        { title: "Carpintarias e Acabamentos", icon: '<img src="siterecoopmedia/recoop_wood_imitation_railing.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Portas, janelas e caixilharias", "Pavimentos vinílicos e flutuantes", "Revestimentos em madeira", "Mobiliário ecológico e reciclado"] },
-        { title: "Canalização e Eletricidade", icon: '<img src="siterecoopmedia/recoop_home_repairs.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Substituição de canalizações", "Instalação de águas e esgotos", "Instalação elétrica, LED e domótica", "Painéis solares e carregadores"] },
-        { title: "Pinturas e Decoração", icon: '<img src="siterecoopmedia/recoop_painter.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Pinturas com tintas ecológicas", "Estuques decorativos e cimento", "Lacagens e vernizes naturais", "Design e decoração ambiental"] },
-        {
-            title: "Sustentabilidade e Energia",
-            icon: '<img src="siterecoopmedia/recoop_solar_panels.png" alt="Sustentabilidade e Energia" class="service-icon">',
-            items: [
-              "Painéis solares fotovoltaicos",
-              "Sistemas off-grid e baterias",
-              "Captação de águas pluviais",
-              "Casas com baixo consumo"
-            ]
-          }
-          
+      { title: "Reabilitação Estrutural", iconFile: 'recoop_stone_wall_imitation.png', items: ["Reforço de vigas, lajes e fundações", "Recuperação de paredes antigas", "Tratamento de humidades e fissuras", "Reabilitação sísmica e estrutural"] },
+      { title: "Telhados e Coberturas", iconFile: 'recoop_portuguese_roof_tile.jpeg', items: ["Substituição e isolamento de telhados", "Impermeabilização e drenagem", "Aplicação de telhas diversas", "Coberturas verdes e ecológicas"] },
+      { title: "Fachadas e Revestimentos", iconFile: 'recoop_etics_application.jpeg', items: ["Capoto / ETICS", "Imitação de pedra e madeira", "Revestimentos em pedra natural", "Pinturas exteriores e proteção"] },
+      { title: "Divisórias, Tetos e Isolamentos", iconFile: 'recoop_workers_3.png', items: ["Pladur / Gesso cartonado", "Isolamento térmico e acústico", "Tetos acústicos e decorativos", "Isolamentos interiores e de caves"] },
+      { title: "Carpintarias e Acabamentos", iconFile: 'recoop_wood_imitation_railing.png', items: ["Portas, janelas e caixilharias", "Pavimentos vinílicos e flutuantes", "Revestimentos em madeira", "Mobiliário ecológico e reciclado"] },
+      { title: "Canalização e Eletricidade", iconFile: 'recoop_home_repairs.png', items: ["Substituição de canalizações", "Instalação de águas e esgotos", "Instalação elétrica, LED e domótica", "Painéis solares e carregadores"] },
+      { title: "Pinturas e Decoração", iconFile: 'recoop_painter.png', items: ["Pinturas com tintas ecológicas", "Estuques decorativos e cimento", "Lacagens e vernizes naturais", "Design e decoração ambiental"] },
+      { title: "Sustentabilidade e Energia", iconFile: 'recoop_solar_panels.png', items: ["Painéis solares fotovoltaicos", "Sistemas off-grid e baterias", "Captação de águas pluviais", "Casas com baixo consumo"] }
     ];
 
     const servicesGrid = document.getElementById('services-grid');
-    if (servicesGrid) {
-        servicesData.forEach(service => {
-            const card = document.createElement('div');
-            card.className = 'service-card';
-            
-            const listItems = service.items.map(item => `<li>${item}</li>`).join('');
+    const servicesPin = document.getElementById('services-pin');
 
-            card.innerHTML = `
-                <div class="service-card-header">
-                    <div class="service-icon-wrapper">${service.icon}</div>
-                    <h4>${service.title}</h4>
-                </div>
-                <ul>${listItems}</ul>
-            `;
-            servicesGrid.appendChild(card);
-        });
+    if (!servicesGrid) {
+      console.error('services-grid not found in DOM');
+      return;
     }
 
-
-    // --- FORM SUBMISSION LOGIC ---
-    const quoteForm = document.getElementById('quote-form');
-    const successMessage = document.getElementById('success-message');
-
-    if (quoteForm) {
-        quoteForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // In a real application, you would send the form data to a server here.
-            // For this example, we'll just show the success message.
-            quoteForm.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-        });
+    // create small pin image container if services-pin exists
+    let pinImg = null;
+    if (servicesPin) {
+      pinImg = document.createElement('img');
+      pinImg.className = 'pin-img';
+      pinImg.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+      servicesPin.appendChild(pinImg);
     }
+
+    function imgUrl(fileName) {
+      return BASE_IMG_PATH + (fileName || '').trim();
+    }
+
+    const FALLBACK = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+
+    // clear previous content
+    servicesGrid.innerHTML = '';
+
+    servicesData.forEach((svc, idx) => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.dataset.serviceIdx = idx;
+
+      const header = document.createElement('div');
+      header.className = 'service-card-header';
+
+      const iconWrapper = document.createElement('div');
+      iconWrapper.className = 'service-icon-wrapper';
+      const img = document.createElement('img');
+      img.className = 'service-icon';
+      img.alt = svc.title;
+      img.src = imgUrl(svc.iconFile);
+
+      img.addEventListener('error', () => {
+        console.warn('Image load failed:', img.src);
+        img.src = FALLBACK;
+      });
+
+      iconWrapper.appendChild(img);
+      header.appendChild(iconWrapper);
+
+      const h4 = document.createElement('h4');
+      h4.textContent = svc.title;
+      header.appendChild(h4);
+
+      card.appendChild(header);
+
+      const ul = document.createElement('ul');
+      svc.items.forEach(it => {
+        const li = document.createElement('li');
+        li.textContent = it;
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+
+      // show in pin on hover
+      let selected = false;
+      card.addEventListener('mouseenter', () => {
+        if (pinImg) {
+          pinImg.src = img.src || FALLBACK;
+          servicesPin && servicesPin.classList.add('pin-filled');
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        if (pinImg && !selected) {
+          pinImg.src = FALLBACK;
+          servicesPin && servicesPin.classList.remove('pin-filled');
+        }
+      });
+      card.addEventListener('click', () => {
+        selected = !selected;
+        if (selected) {
+          if (pinImg) { pinImg.src = img.src || FALLBACK; servicesPin && servicesPin.classList.add('pin-filled'); }
+          card.style.boxShadow = '0 6px 18px rgba(0,0,0,0.12)';
+        } else {
+          if (pinImg) { pinImg.src = FALLBACK; servicesPin && servicesPin.classList.remove('pin-filled'); }
+          card.style.boxShadow = '';
+        }
+      });
+
+      servicesGrid.appendChild(card);
+    });
+
+    console.log('services-grid children count:', servicesGrid.children.length);
+  })();
+
+  // --- place for other code (smooth clone, scroll interactions, etc.)
+  // Put any additional scripts here, ensuring they reference existing DOM elements.
+});
 
 });
 
