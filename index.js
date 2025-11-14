@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DYNAMICALLY CREATE SERVICE CARDS ---
     const servicesData = [
-        { title: "Reabilitação Estrutural", icon: '<img src="siterecoopmedia/recoop_stone_wall_imitation.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Reforço de vigas, lajes e fundações", "Recuperação de paredes antigas", "Tratamento de humidades e fissuras", "Reabilitação sísmica e estrutural"] },
+        { title: "Reabilitação e Remodelação", icon: '<img src="siterecoopmedia/recoop_stone_wall_imitation.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Reabilitação integral de edifícios e moradias", "Remodelação de interiores e exteriores", "Conservação de fachadas e estruturas históricas", "Pintura, rebocos e acabamentos de alta durabilidade"] },
         { title: "Telhados e Coberturas", icon: '<img src="siterecoopmedia/recoop_portuguese_roof_tile.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Substituição e isolamento de telhados", "Impermeabilização e drenagem", "Aplicação de telhas diversas", "Coberturas verdes e ecológicas"] },
         { title: "Fachadas e Revestimentos", icon: '<img src="siterecoopmedia/recoop_etics_application.jpeg" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Capoto / ETICS", "Imitação de pedra e madeira", "Revestimentos em pedra natural", "Pinturas exteriores e proteção"] },
         { title: "Divisórias, Tetos e Isolamentos", icon: '<img src="siterecoopmedia/recoop_workers_3.png" alt="Sustentabilidade e Energia" class="service-icon">', items: ["Pladur / Gesso cartonado", "Isolamento térmico e acústico", "Tetos acústicos e decorativos", "Isolamentos interiores e de caves"] },
@@ -58,22 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const servicesGrid = document.getElementById('services-grid');
-    if (servicesGrid) {
-        servicesData.forEach(service => {
-            const card = document.createElement('div');
-            card.className = 'service-card';
-            
-            const listItems = service.items.map(item => `<li>${item}</li>`).join('');
+if (servicesGrid) {
+    // پاک کردن هر کارت قبلی
+    servicesGrid.innerHTML = '';
 
-            card.innerHTML = `
-                <div class="service-card-header">
-                    <div class="service-icon-wrapper">${service.icon}</div>
-                    <h4>${service.title}</h4>
-                </div>
-                <ul>${listItems}</ul>
-            `;
-            servicesGrid.appendChild(card);
-        });
+    servicesData.forEach(service => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        
+        const listItems = service.items.map(item => `<li>${item}</li>`).join('');
+
+        card.innerHTML = `
+            <div class="service-card-header">
+                <div class="service-icon-wrapper">${service.icon}</div>
+                <h4>${service.title}</h4>
+            </div>
+            <ul>${listItems}</ul>
+        `;
+        servicesGrid.appendChild(card);
+    });
+
     }
 
 
