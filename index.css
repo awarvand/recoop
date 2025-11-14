@@ -644,46 +644,87 @@ h1, h2, h3, h4 {
   }
   
     /* container موقعیت دهی کن */
-    #servicos .container { position: relative; }
+  /* ---------- PIN + ICON FIXES ---------- */
 
-    /* services pin (هدف نهایی) */
-    .services-pin {
-      position: absolute;
-      top: -50px;        /* تنظیم کن براساس جای دلخواه داخل container */
-      right: 450px;      /* گوشه بالا-راست؛ می‌تونی تغییر بدی */
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      z-index: 30;
-      background: transparent;
-      width: 96px;
-      height: 96px;
-    }
-  
-    /* وقتی pin پر شد کلاس pin-filled اضافه می‌شود */
-    .services-pin.pin-filled { background: transparent; }
-  
-    /* تصویر داخل pin */
-    .services-pin img.pin-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      border-radius: inherit;
-      pointer-events: none;
-    }
-  
-    /* کارت‌ها */
-    .services-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 20px; }
-    .service-card { background:#f8f8f8; padding:12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.06); cursor:pointer; transition:transform .12s; }
-    .service-card:hover { transform: translateY(-4px); }
-    .service-card-header { display:flex; gap:12px; align-items:center; }
-    .service-icon { width:48px; height:48px; object-fit:cover; border-radius:6px; flex-shrink:0; }
-    .service-card h4 { margin:0; font-size:1rem; }
-    .service-card ul { margin:8px 0 0 18px; padding:0; color:#333; font-size:0.92rem; }
-  
+/* container positioning (unchanged) */
+#servicos .container { position: relative; }
+
+/* services pin: اندازه منطقی و قابل تنظیم */
+.services-pin {
+  position: absolute;
+  top: -40px;            /* تنظیم دلخواه */
+  right: 2.5rem;        /* استفاده از فاصله نسبی بهتر از مقدار ثابت px */
+  width: 120px;         /* اندازه کلی پن */
+  height: 120px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 30;
+  background: transparent;
+  transition: box-shadow .18s ease, transform .18s ease;
+  /* یک مقدار پیش‌فرض سایه کم برای دیده شدن قاب روی پس‌زمینه */
+  box-shadow: none;
+}
+
+/* حالت پر شده (وقتی تصویر درون pin گذاشته می‌شود) */
+.services-pin.pin-filled {
+  /* کادر نارنجیِ قابل کنترل:
+     - use outline-like look via box-shadow so it won't change layout
+  */
+  box-shadow: 0 0 0 6px rgba(255, 165, 0, 0.14), 0 6px 18px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* تصویر داخل pin: فقط یک تعریف منظم (بدون تکرار width) */
+.services-pin img.pin-img {
+  width: 84%;
+  height: 84%;
+  max-width: 104px;   /* حداکثر منطقی */
+  max-height: 104px;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  pointer-events: none;
+  transition: opacity .12s ease, transform .12s ease;
+}
+
+/* برای زمانی که می‌خواهی تصویر دایره‌ای باشد:
+.services-pin img.pin-img { border-radius: 50%; } */
+
+/* کارت‌ها: بزرگ‌تر کردن آیکون داخل کارت */
+.services-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 20px; }
+.service-card { background:#f8f8f8; padding:14px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.06); cursor:pointer; transition:transform .12s; }
+.service-card:hover { transform: translateY(-4px); }
+.service-card-header { display:flex; gap:14px; align-items:center; }
+
+/* افزایش اندازه آیکون کارت -> واضح‌تر دیده شود */
+.service-icon {
+  width: 150px;          /* بزرگ‌تر از قبلی */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+/* کوچک‌تر کردن عنوان کنار آیکون در موبایل تا layout بهتر بماند */
+.service-card h4 { margin:0; font-size:1rem; }
+
+/* لیست داخل کارت */
+.service-card ul { margin:8px 0 0 18px; padding:0; color:#333; font-size:0.92rem; }
+
+/* RESPONSIVE: روی موبایل همه چیز جمع‌وجورتر شود */
+@media (max-width: 640px) {
+  .services-pin { right: 1rem; top: -30px; width: 84px; height: 84px; }
+  .services-pin img.pin-img { width: 78%; max-width: 72px; max-height: 72px; }
+  .service-icon { width: 52px; height: 52px; }
+  .services-grid { gap: 12px; }
+}
+
+
+
   /* clone که به body اضافه میشه - follow mode (بدون transition برای همگامی دقیق) */
   .floating-clone {
     position: fixed;
