@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/index.css">
+
 </head>
 <body>
 
@@ -252,5 +252,29 @@
     
     <script src="/index.js"></script>
 <script type="module" src="/index.tsx"></script>
+
+<script>
+    // لیست تمام اسکریپت‌هایی که صفحه سعی کرده لود کنه
+    window.addEventListener('load', () => {
+      const scripts = Array.from(document.scripts).map(s => ({
+        src: s.src || '(inline)',
+        async: s.async,
+        defer: s.defer
+      }));
+      console.log('Document scripts:', scripts);
+  
+      // اگر request 404 هست در شبکه، این بهت کمک نمیکنه مستقیماً، اما مسیرهایی که ارجاع شده را نشان میده
+      // سپس یک درخواست HEAD امتحانی برای مسیر index.js (تغییر بده به همونی که در Console خطا دیدی)
+      const testPaths = ['/index.js', './index.js', '/assets/index.js'];
+      testPaths.forEach(p => {
+        fetch(p, { method: 'HEAD' }).then(r => {
+          console.log('HEAD', p, '→', r.status);
+        }).catch(err => {
+          console.warn('HEAD fetch failed', p, err);
+        });
+      });
+    });
+  </script>
+  
 </body>
 </html>
