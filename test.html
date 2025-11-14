@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>حرکت جسم با اسکرول (روش clone & fixed)</title>
+<style>
+  body{ margin:0; font-family:sans-serif; direction: rtl; }
+  header{
+    height: 320px;
+    background: linear-gradient(180deg,#0f172a,#071126);
+    color:#fff;
+    position:relative;
+    padding:30px;
+  }
+  .header-content{ max-width:1000px; margin:0 auto; }
+
+  /* عنصر اصلی که در هدر قرار داره (نمایش اولیه) */
+  .floating-original {
+    width:96px; height:96px; border-radius:12px;
+    background: url('siterecoop media/recoop_logo_1-removebg-preview.png') center/cover no-repeat;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    display:inline-block;
+  }
+
+  main{ background:#f6f8fb; min-height:2000px; padding:30px; }
+
+  /* بخش هدف */
+  .target-section{
+    margin-top:700px;
+    padding:80px 0;
+    text-align:center;
+  }
+  .target-slot{
+    width:120px; height:120px; margin:0 auto;
+    border-radius:12px; background:#fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* clone ای که به body اضافه میشه: مقدار position و transform توسط JS تنظیم میشه */
+  .floating-clone {
+    position: fixed;
+    z-index:9999;
+    pointer-events: none;
+    will-change: transform, width, height, left, top;
+    border-radius:12px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <h1>مثال حرکت جسم با اسکرول</h1>
+    <div style="margin-top:18px;">
+      <div id="orig" class="floating-original" aria-hidden="true"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <p>اسکرول کن تا ببینی جسم حرکت می‌کنه...</p>
+
+  <section class="target-section">
+    <h2>بخش هدف</h2>
+    <div id="target" class="target-slot"></div>
+  </section>
+
+  <p style="height:1000px"></p>
+</main>
+
+<script>
+/*
+روش: clone + fixed
+1) موقعیت دقیق عنصر مبدأ و عنصر هدف (در viewport) گرفته می‌شود.
+2) یک clone ساخته و به body اضافه می‌کنیم با position:fixed و همان سایز/پس‌زمینه.
+3) با محاسبه‌ی delta بین مراکز، clone را با transform جابجا می‌کنیم براساس progress (0..1).
+4) برای نرمی از requestAnimationFrame + lerp استفاده می‌کنیم.
+*/
+(function(){
+  const orig = document.getElementById('orig');
+  const target = document.getElementById('target');
+
+  // تنظیمات قابل تغییر
+  const startOffsetPx = 0; // شروع انیمیشن وقتی صفحه X پیکسل از بالای صفحه اسکرول شده (اضافه/تفریق کن)
+  const endOffsetPx = 0;   // اضافی برای پایان (مثلاً تا جسم کمی بالاتر از مرکز target بنشیند)
+  const lerpSpeed = 0.18;  // نرمی
+  const maxRotate = 8;     // حداکثر چرخش در درجه
+  const endScale = 0.9;    // مقیاس نهایی
+
+  let clone = null;
+  let rafId = null;
+  let currentP = 0;
+  let targetP = 0;
+
+  function clamp(v,a=0,b=1){ return Math.max(a, Math.min(b, v)); }
+  function lerp(a,b,t){ return a + (b-a)*t; }
+
+  // محاسبه progress براساس scrollY نسبت به startY و endY
+  function computeProgress(){
+    const origRect = orig.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    // تبدیل viewport coords به page coords
+    const scrollY = window.scrollY || window.pageYOffset;
+
+    const origCenterPage = {
+      x: origRect.left + origRect.width/2 + window.scrollX,
+      y: origRect.top + origRect.height/2 + scrollY
+    };
+    const targetCenterPage = {
+      x: targetRect.left + targetRect.width/2 + window.scrollX,
+      y: targetRect.top + targetRect.height/2 + scrollY
+    };
+
+    // نقطه شروع: وقتی صفحه به مقداری رسید که orig شروع به جدا شدن کند
+    // اینجا ما از موقعیت صفحه استفاده می‌کنیم: وقتی scrollY >= origStartPageY - viewportHeight/2 ...
+    const startTrigger = origCenterPage.y - (window.innerHeight * 0.5) + startOffsetPx;
+    // نقطه پایان: وقتی scrollY >= targetCenterPage.y - viewportCenter
+    const endTrigger = targetCenterPage.y - (window.innerHeight * 0.5) + endOffsetPx;
+
+    // total
+    const total = endTrigger - startTrigger || 1;
+    const p = (scrollY - startTrigger) / total;
+    return clamp(p, 0, 1);
+  }
+
+  // ساخت clone از orig (با کپی سایز و پس‌زمینه)
+  function createClone(){
+    if (clone) return clone;
+    const r = orig.getBoundingClientRect();
+    clone = document.createElement('div');
+    clone.className = 'floating-clone';
+    // سایز و موقعیت اولیه نسبت به viewport
+    clone.style.width = r.width + 'px';
+    clone.style.height = r.height + 'px';
+    clone.style.left = r.left + 'px';
+    clone.style.top = r.top + 'px';
+    // کپی تصویر / پس‌زمینه از orig (اگر از background-image استفاده می‌کنی)
+    // در این مثال orig از background استفاده می‌کنه؛ اگر از <img> باشه باید img.src را در clone به کار ببریم.
+    const bg = window.getComputedStyle(orig).backgroundImage;
+    if (bg && bg !== 'none') clone.style.backgroundImage = bg;
+    // اگر orig یک <img> بود:
+    const img = orig.querySelector('img');
+    if (img && img.src) {
+      clone.style.backgroundImage = `url("${img.src}")`;
+      clone.style.backgroundSize = 'cover';
+      clone.style.backgroundPosition = 'center';
+    }
+    document.body.appendChild(clone);
+    return clone;
+  }
+
+  function removeClone(){
+    if (clone){
+      clone.remove();
+      clone = null;
+    }
+  }
+
+  function applyTransformToClone(p){
+    if (!clone) return;
+    const r = clone.getBoundingClientRect();
+    const scrollY = window.scrollY || window.pageYOffset;
+    // دوباره محاسبه مراکز در page coords
+    const origRect = orig.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    const origCenterPage = {
+      x: origRect.left + origRect.width/2 + window.scrollX,
+      y: origRect.top + origRect.height/2 + scrollY
+    };
+    const targetCenterPage = {
+      x: targetRect.left + targetRect.width/2 + window.scrollX,
+      y: targetRect.top + targetRect.height/2 + scrollY
+    };
+
+    // دلتا در page coords
+    const dx = targetCenterPage.x - origCenterPage.x;
+    const dy = targetCenterPage.y - origCenterPage.y;
+
+    // مقدار translate در پیکسل برای viewport (چون clone fixed است، باید دلتا نسبت به scrollY محاسبه شود)
+    // موقعیت clone در viewport = origRect.left/top (که قبلاً set شده)
+    const translateX = dx * p;
+    const translateY = dy * p - (window.scrollY || window.pageYOffset) * 0; // keep simple
+
+    // scale و rotate
+    const scale = lerp(1, endScale, p);
+    const rotate = lerp(0, maxRotate, p);
+
+    clone.style.transform = `translate(${translateX}px, ${translateY}px) translateZ(0) scale(${scale}) rotate(${rotate}deg)`;
+  }
+
+  // رندر نرم با lerp
+  function rafLoop(){
+    rafId = null;
+    currentP = lerp(currentP, targetP, lerpSpeed);
+    // وقتی p نزدیک 0 باشه، حذف clone و بستن transform
+    if (currentP <= 0.001){
+      // hide clone if exists
+      if (clone) {
+        clone.style.opacity = '0';
+      }
+      // reset orig visibility
+      orig.style.visibility = 'visible';
+    } else {
+      // ensure clone exists and orig hidden
+      createClone();
+      orig.style.visibility = 'hidden';
+      clone.style.opacity = '1';
+      applyTransformToClone(currentP);
+    }
+
+    // اگر به تقریباً 1 رسیده بودیم و می‌خواهیم رفتار نهایی ثابتی باشه، می‌توانیم clone را نگه داریم یا آنرا حذف کنیم.
+    // در این نمونه، وقتی p>=0.995، clone را نگه می‌داریم (نمایان باشد).
+  }
+
+  function onScroll(){
+    targetP = computeProgress();
+    if (!rafId) rafId = requestAnimationFrame(rafLoop);
+    // اگر کاربر کاملاً به اول برگشت، cleanup
+    if (targetP <= 0){
+      // اندکی تاخیر برای smoothness
+      setTimeout(()=> {
+        if (targetP <= 0) removeClone();
+        orig.style.visibility = 'visible';
+      }, 250);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', ()=> {
+    // اگر تغییر اندازه داشتیم، ریست کن تا ابعاد clone بازتنظیم شود
+    removeClone();
+    onScroll();
+  });
+
+  // اجرای اولیه
+  onScroll();
+
+})();
+</script>
+</body>
+</html>

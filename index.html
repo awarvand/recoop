@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RECOOP - Reabilitação de Edifícios</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="main-header" class="header">
+        <div class="container header-container">
+            <a href="#inicio" class="logo">
+                <img src="siterecoop media/recoop_logo_1-removebg-preview.png" alt="RECOOP logo">
+              </a>
+              
+            <nav class="main-nav">
+                <a href="#inicio">Início</a>
+                <a href="#sobre">Sobre Nós</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#galeria">Galeria</a>
+                <a href="#orcamentos">Orçamentos</a>
+                <a href="#contactos">Contactos</a>
+            </nav>
+            <a href="#orcamentos" class="btn btn-primary hidden-mobile">Pedir Orçamento</a>
+            <button id="mobile-menu-button" class="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false">
+                <svg id="menu-icon" class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <svg id="x-icon" class="icon hidden" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="#inicio">Início</a>
+            <a href="#sobre">Sobre Nós</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#galeria">Galeria</a>
+            <a href="#orcamentos">Orçamentos</a>
+            <a href="#contactos">Contactos</a>
+            <a href="#orcamentos" class="btn btn-primary">Pedir Orçamento</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <h1>
+                    <span>RECOOP</span>
+                    <!-- داخل بخش HERO, بعد از <span>RECOOP</span> -->
+                    <img id="hero-icon" src="siterecoop media/—Pngtree—3d closeup of paint roller_15712816.png" alt="RECOOP icon" />
+
+
+                    <span class="subtitle">Reabilitação e Recuperação de Casas e Edifícios</span>
+                </h1>
+                <p>
+                    A RECOOP é especialista em reabilitação, recuperação e remodelação, aliando técnicas modernas à valorização da arquitetura tradicional portuguesa.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#servicos" class="btn btn-primary">Nossos Serviços</a>
+                    <a href="#orcamentos" class="btn btn-secondary">Avaliação Gratuita</a>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+         <!-- SERVICES SECTION -->
+         <section id="servicos" class="section section-dark">
+            <div class="container text-center">
+             
+                <h2 class="section-subtitle">Serviços</h2>
+                <div id="services-pin" class="services-pin" aria-hidden="true"></div>
+                
+
+                <h3 class="section-title">Soluções completas para o seu imóvel</h3>
+                <p class="section-description">
+                    Do telhado à cave, oferecemos uma vasta gama de serviços especializados para dar uma nova vida ao seu espaço.
+                </p>
+                <div id="services-grid" class="services-grid">
+                    <!-- داخل <section id="servicos" ...> و داخل .container -->
+
+
+                    <!-- Service cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="sobre" class="section">
+            <div class="container text-center">
+                <h2 class="section-subtitle">Sobre Nós</h2>
+                <h3 class="section-title">O seu parceiro de confiança em reabilitação</h3>
+                <p class="section-description">
+                    Combinamos técnicas modernas com um profundo respeito pela arquitetura tradicional.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 12l-2 2 2.828 2.828a1 1 0 010 1.414L10 21M17 3l2.293 2.293a1 1 0 010 1.414L14 12l-2 2 2.828 2.828a1 1 0 010 1.414L14 21" /></svg>
+                        </div>
+                        <h4>A Nossa Missão</h4>
+                        <p>Transformar espaços antigos em ambientes modernos, eficientes e saudáveis, respeitando o património e reduzindo o impacto ambiental.</p>
+                    </div>
+                    <div class="feature-card">
+                         <div class="feature-icon-wrapper">
+                             <svg class="feature-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197m0 0A5.975 5.975 0 0112 13a5.975 5.975 0 013 1.803M15 21a9 9 0 00-9-5.197M15 21a9 9 0 00-9-5.197" /></svg>
+                        </div>
+                        <h4>Equipa Técnica</h4>
+                        <p>Profissionais qualificados e experientes, prontos para executar cada obra com rigor técnico e acompanhamento personalizado.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                           <svg class="feature-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h4>Certificações e Garantias</h4>
+                        <p>Trabalhamos com materiais certificados e oferecemos garantias RECOOP, assegurando soluções sustentáveis, ecológicas e duradouras.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+
+       
+        <!-- MATERIALS SECTION -->
+        <section id="materiais" class="section section-dark">
+          <div class="container two-column-layout">
+            <div class="column-text">
+                <h2 class="section-subtitle">Produtos & Materiais</h2>
+                <h3 class="section-title">Qualidade e Sustentabilidade</h3>
+                <p>Selecionamos cuidadosamente os melhores materiais do mercado, com foco na durabilidade, eficiência energética e baixo impacto ambiental.</p>
+                <ul class="materials-list">
+                  <li>Isolamentos e Impermeabilizantes</li>
+                  <li>Revestimentos em Madeira e Pedra</li>
+                  <li>Tintas e Vernizes Ecológicos</li>
+                  <li>Materiais Reciclados</li>
+                  <li>Sistemas Solares e Energéticos</li>
+                </ul>
+            </div>
+            <div class="column-image">
+                <img src="siterecoop media/recoop_workers_4.png" alt="Materiais de construção sustentáveis" />
+            </div>
+          </div>
+        </section>
+
+         <!-- GALLERY SECTION -->
+         <section id="galeria" class="section">
+            <div class="container text-center">
+                <h2 class="section-subtitle">Galeria de Projetos</h2>
+                <h3 class="section-title">Transformamos visões em realidade</h3>
+                <p class="section-description">
+                    Explore alguns dos nossos trabalhos e veja a qualidade e dedicação que colocamos em cada projeto.
+                </p>
+            </div>
+            <div class="container gallery-container">
+                 <div class="gallery-category">
+                    <h4>Antes e Depois</h4>
+                    <div class="gallery-grid-double">
+                        <div class="before-after-pair">
+                            <div class="gallery-item"><img src="siterecoop media/IMG_7526.webp" alt="Antes"></div>
+                            <div class="gallery-item"><img src="siterecoop media/IMG_7559.jpeg" alt="Depois"></div>
+                        </div>
+                        <div class="before-after-pair">
+                           <div class="gallery-item"><img src="siterecoop media/IMG_7561.jpeg" alt="Antes"></div>
+                           <div class="gallery-item"><img src="siterecoop media/recoop_project_in_progress.png" alt="Depois"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-category">
+                    <h4>Reabilitação de Interiores</h4>
+                    <div class="gallery-grid">
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7512.webp" alt="Interior moderno"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7535.webp" alt="Cozinha renovada"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7513.jpeg" alt="Sala de estar"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7549.jpeg" alt="Interior moderno"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7555.jpeg" alt="Cozinha renovada"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7517.webp" alt="Sala de estar"></div>
+
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7556.jpeg" alt="Interior moderno"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7571.jpeg" alt="Cozinha renovada"></div>
+                        <div class="gallery-item"><img src="siterecoop media/IMG_7586_1.jpeg" alt="Sala de estar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- QUOTE SECTION -->
+        <section id="orcamentos" class="section">
+            <div class="container two-column-layout">
+                <div class="column-text">
+                    <h2 class="section-subtitle">Orçamentos</h2>
+                    <h3 class="section-title">Quer receber um orçamento gratuito?</h3>
+                    <p>Preencha o formulário e a nossa equipa entrará em contacto para agendar uma avaliação gratuita do seu projeto. Dê o primeiro passo para transformar o seu espaço.</p>
+                </div>
+                <div class="form-container">
+                    <form id="quote-form">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" name="name" id="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem / Descrição do Projeto</label>
+                            <textarea name="message" id="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Pedir Visita Técnica</button>
+                    </form>
+                    <div id="success-message" class="hidden">
+                        <h3>Obrigado!</h3>
+                        <p>A sua mensagem foi enviada com sucesso. Entraremos em contacto em breve.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contactos" class="footer">
+        <div class="container footer-grid">
+            <div class="footer-column">
+                <h4 class="logo">RECOOP<span>.</span></h4>
+                <p>Reabilitação e Recuperação de Casas e Edifícios.</p>
+                <p>Respeitando o património, valorizando a estética e reduzindo o impacto ambiental.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Contactos</h4>
+                <ul class="contact-list">
+                    <li><a href="mailto:geral@recoop.pt">geral@recoop.pt</a></li>
+                    <li>+351 000 000 000</li>
+                    <li>Portugal</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Redes Sociais</h4>
+                <div class="social-links">
+                     <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z" /></svg></a>
+                     <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.585-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.645-.07-4.85s.012-3.585.07-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" /></svg></a>
+                     <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.484 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" /></svg></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RECOOP. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script src="index.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
