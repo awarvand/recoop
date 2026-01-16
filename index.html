@@ -198,42 +198,59 @@
                     <p>Preencha o formulário e a nossa equipa entrará em contacto para agendar uma avaliação gratuita do seu projeto. Dê o primeiro passo para transformar o seu espaço.</p>
                 </div>
                 <div class="form-container">
-                    <form id="quote-form" netlify>
-                        <div class="form-group">
-                            <label for="name">Nome</label>
-                            <input type="text" name="name" id="name" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Mensagem / Descrição do Projeto</label>
-                            <textarea name="message" id="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Pedir Visita Técnica</button>
+                    <form
+                      id="quote-form"
+                      name="quote"
+                      method="POST"
+                      data-netlify="true"
+                    >
+                      <!-- لازم برای Netlify -->
+                      <input type="hidden" name="form-name" value="quote">
+                  
+                      <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input type="text" name="name" id="name" required />
+                      </div>
+                  
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" required />
+                      </div>
+                  
+                      <div class="form-group">
+                        <label for="message">Mensagem / Descrição do Projeto</label>
+                        <textarea name="message" id="message" rows="4" required></textarea>
+                      </div>
+                  
+                      <button type="submit" class="btn btn-primary btn-full">
+                        Pedir Visita Técnica
+                      </button>
                     </form>
+                  
                     <div id="success-message" class="hidden">
-                        <h3>Obrigado!</h3>
-                        <p>A sua mensagem foi enviada com sucesso. Entraremos em contacto em breve.</p>
+                      <h3>Obrigado!</h3>
+                      <p>A sua mensagem foi enviada com sucesso. Entraremos em contacto em breve.</p>
                     </div>
-                </div>
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                  const form = document.getElementById('quote-form');
-                  const success = document.getElementById('success-message');
-                  const feedback = document.getElementById('my-form-feedback');
-                
-                  form.addEventListener('submit', function(e) {
-                    // کمی تاخیر برای نمایش موفقیت
-                    setTimeout(() => {
-                      form.style.display = 'none';
-                      success.style.display = 'block';
-                    }, 100);
-                  });
-                });
-                </script>
+                  </div>
+                  
+
+                  <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                      const form = document.getElementById('quote-form');
+                      const success = document.getElementById('success-message');
+                    
+                      if (!form) return;
+                    
+                      form.addEventListener('submit', () => {
+                        // Netlify خودش ارسال رو انجام می‌ده
+                        setTimeout(() => {
+                          form.style.display = 'none';
+                          success.classList.remove('hidden');
+                        }, 100);
+                      });
+                    });
+                    </script>
+                    
         </section>
     </main>
 

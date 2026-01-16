@@ -81,48 +81,7 @@ if (servicesGrid) {
     }
 
 
-  // --- FORM SUBMISSION LOGIC ---
-const quoteForm = document.getElementById('quote-form');
-const successMessage = document.getElementById('success-message');
-
-if (quoteForm) {
-    quoteForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // گرفتن مقادیر فرم
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-        
-        const date = new Date().toISOString(); // تاریخ ارسال
-
-        // ساخت داده برای ارسال به وبهوک
-        const payload = {
-            name,
-            email,
-            message,
-            date
-        };
-
-        try {
-            // ارسال به وبهوک
-            await fetch('https://hook.eu2.make.com/x9pbo9g5ed26r44l5eikoanm3225uvja', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            // نمایش پیام موفقیت
-            quoteForm.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-        } catch (err) {
-            console.error('Error sending form data:', err);
-            alert('خطایی در ارسال فرم رخ داد. لطفاً دوباره تلاش کنید.');
-        }
-    });
-}
+  
 
 });
 
