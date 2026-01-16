@@ -219,6 +219,21 @@
                     </div>
                 </div>
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const form = document.getElementById('quote-form');
+                  const success = document.getElementById('success-message');
+                  const feedback = document.getElementById('my-form-feedback');
+                
+                  form.addEventListener('submit', function(e) {
+                    // کمی تاخیر برای نمایش موفقیت
+                    setTimeout(() => {
+                      form.style.display = 'none';
+                      success.style.display = 'block';
+                    }, 100);
+                  });
+                });
+                </script>
         </section>
     </main>
 
